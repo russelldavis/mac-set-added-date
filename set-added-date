@@ -1,0 +1,12 @@
+#!/usr/local/bin/bash
+set -o physical -o errtrace -o errexit -o nounset -o pipefail
+shopt -s failglob inherit_errexit
+
+if [ $# -lt 2 ]; then
+  echo "usage: set-added-date [[CC]YY]MMDDhhmm[.SS] <file>"
+  echo "see usage of touch -t for datetime format"
+  exit 1
+fi
+
+touch -mt "$1" "$2"
+exec "$(dirname "$(realpath "$0")")/set-added-date-from-modified" "$2"
